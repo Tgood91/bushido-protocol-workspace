@@ -1,0 +1,8 @@
+{
+  "name": "Remix Ethereum AI Analytics Agent",
+  "description": "Professional DEX Trading Terminal and Aggregation Shell featuring 1inch v5, Li.Fi, Relay, 0xSplits, Aerodrome, and Velodrome routing with integrated Ethereum AI analytics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+.markdown-body h1, 
+.markdown-body h2, 
+.markdown-body h3, 
+.markdown-body h4 {
+  @apply font-bold text-[#141414] dark:text-white/90 mt-4 mb-2;
+  display: inline-block;
+  background: linear-gradient(180deg, transparent 50%, rgba(20, 20, 20, 0.05) 50%);
+  padding: 0 4px;
+}
+
+.markdown-body strong {
+  @apply font-bold text-[#141414] dark:text-white/90;
+  background-color: rgba(20, 20, 20, 0.03);
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
+.markdown-body {
+  @apply break-words overflow-hidden;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+}
+
+.markdown-body code {
+  @apply break-all whitespace-pre-wrap !bg-[#141414]/5 dark:!bg-white/5 !px-1.5 !py-0.5 !rounded-md;
+}
+
+/* Vega Tooltip Fixes */
+#vg-tooltip-element {
+  @apply !bg-white/95 dark:!bg-[#0F0F0F]/95 !backdrop-blur-md !border !border-[#141414]/10 dark:!border-white/10 !rounded-xl !shadow-2xl !p-3 !text-xs !font-sans !z-[9999] !max-w-[260px] md:!max-w-sm !transition-opacity !duration-200 !pointer-events-none;
+  position: fixed !important;
+}
+
+#vg-tooltip-element table {
+  @apply !border-collapse !w-full !m-0;
+}
+
+#vg-tooltip-element table tr {
+  @apply !border-0;
+}
+
+#vg-tooltip-element table tr td {
+  @apply !py-1 !px-0 !border-0 !align-top;
+}
+
+#vg-tooltip-element table tr td.key {
+  @apply !text-[#141414]/50 dark:!text-white/40 !pr-3 !font-mono !uppercase !tracking-wider !text-[9px] md:!text-[10px] !whitespace-nowrap;
+}
+
+#vg-tooltip-element table tr td.value {
+  @apply !text-[#141414] dark:!text-white/90 !font-semibold !break-all;
+}
