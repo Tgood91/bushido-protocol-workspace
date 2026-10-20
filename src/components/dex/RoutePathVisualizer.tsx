@@ -141,6 +141,9 @@ export const RoutePathVisualizer: React.FC<RoutePathVisualizerProps> = ({
               <div className="text-[11px] font-mono font-semibold text-emerald-600 dark:text-emerald-400">
                 ~{quote.toAmount.toFixed(4)} {quote.toToken.symbol}
               </div>
+              <div className="text-[9px] font-mono text-gray-500 dark:text-white/50">
+                Min. {quote.minimumReceivedAmount.toFixed(4)} at {quote.slippageTolerancePercent}% slippage
+              </div>
               <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-gray-200 dark:bg-white/10 text-gray-500 dark:text-white/40">
                 Chain {quote.toToken.chainId}
               </span>

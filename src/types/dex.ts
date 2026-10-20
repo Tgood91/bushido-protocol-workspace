@@ -82,6 +82,7 @@ export interface RouteQuote {
   toToken: Token;
   fromAmount: number;
   toAmount: number;
+  minimumReceivedAmount: number;
   rate: number;
   priceImpact: number;
   estimatedGasUsd: number;

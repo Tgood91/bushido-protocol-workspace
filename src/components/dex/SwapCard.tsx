@@ -14,10 +14,11 @@ import {
   Trash2,
   Sparkles
 } from "lucide-react";
-import { Token, RouteQuote, SplitsRecipient, ProtocolId, ChainConfig } from "../../types/dex";
+import { Token, RouteQuote, SplitsRecipient, ProtocolId } from "../../types/dex";
 import { TOKEN_LIST } from "../../data/tokens";
 import { SUPPORTED_CHAINS, ROUTER_INVENTORY } from "../../data/dexInventory";
 import { Tooltip } from "../Tooltip";
+import { getAvailableRouters } from "../../services/routerEngine";
 
 interface SwapCardProps {
   fromToken: Token;
@@ -114,6 +115,10 @@ export const SwapCard: React.FC<SwapCardProps> = ({
   );
 
   const splitsSum = splitsRecipients.reduce((acc, r) => acc + r.percentage, 0);
+  const availableRouters = getAvailableRouters(fromToken, toToken);
+  const selectedRouter = preferredRouter === "auto" || availableRouters.includes(preferredRouter)
+    ? preferredRouter
+    : "auto";
 
   return (
     <div className="bg-white dark:bg-[#0F0F0F] border border-gray-200 dark:border-white/10 rounded-2xl p-5 sm:p-6 shadow-md relative space-y-4">
@@ -164,16 +169,15 @@ export const SwapCard: React.FC<SwapCardProps> = ({
           <div className="flex items-center justify-between pt-2 border-t border-gray-200 dark:border-white/5">
             <span className="font-semibold text-gray-700 dark:text-white/80">Preferred Router Mode</span>
             <select
-              value={preferredRouter}
-              onChange={(e) => onSelectPreferredRouter(e.target.value as any)}
+              value={selectedRouter}
+              onChange={(e) => onSelectPreferredRouter(e.target.value as "auto" | ProtocolId)}
               className="bg-white dark:bg-[#202020] border border-gray-200 dark:border-white/10 rounded-lg px-2 py-1 text-xs text-gray-800 dark:text-white/90 font-mono focus:outline-none"
             >
               <option value="auto">Auto (Best Rate & Gas)</option>
-              <option value="1inch_v5">1inch v5 (Pathfinder)</option>
-              <option value="relay">Relay (Low-Latency Intent)</option>
-              <option value="lifi">Li.Fi (Multi-Bridge)</option>
-              <option value="aerodrome">Aerodrome (Base veAMM)</option>
-              <option value="velodrome">Velodrome (OP veAMM)</option>
+              {availableRouters.map((routerId) => {
+                const router = ROUTER_INVENTORY.find((item) => item.id === routerId);
+                return router ? <option key={router.id} value={router.id}>{router.shortName}</option> : null;
+              })}
             </select>
           </div>
         </div>
@@ -364,6 +368,13 @@ export const SwapCard: React.FC<SwapCardProps> = ({
           </div>
 
           <div className="flex justify-between text-gray-500 dark:text-white/60">
+            <span>Minimum Received ({quote.slippageTolerancePercent}% slippage)</span>
+            <span className="text-gray-900 dark:text-white">
+              {quote.minimumReceivedAmount.toFixed(4)} {toToken.symbol}
+            </span>
+          </div>
+
+          <div className="flex justify-between text-gray-500 dark:text-white/60">
             <span>Est. Network Gas</span>
             <span className="text-gray-900 dark:text-white flex items-center gap-1">
               <Fuel className="w-3 h-3 text-emerald-500" />
@@ -392,7 +403,7 @@ export const SwapCard: React.FC<SwapCardProps> = ({
             ? "Enter an amount"
             : splitsEnabled && splitsSum !== 100
             ? "Adjust Splits to 100%"
-            : "Review & Execute Swap"}
+            : "Review Swap Simulation"}
         </span>
       </button>
 

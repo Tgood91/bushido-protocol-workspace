@@ -104,7 +104,7 @@ export const SwapExecutionModal: React.FC<SwapExecutionModalProps> = ({
         <div className="flex items-center justify-between border-b border-gray-100 dark:border-white/5 pb-3">
           <div>
             <h3 className="text-base font-bold text-gray-900 dark:text-white">
-              {step === "completed" ? "Transaction Confirmed" : "Executing Standardized DEX Swap"}
+              {step === "completed" ? "Swap Simulation Complete" : "Simulating Standardized DEX Swap"}
             </h3>
             <p className="text-xs text-gray-500 dark:text-white/40 font-mono">
               Via {primaryInventory?.protocolName || "Automated Routing Engine"}
@@ -128,6 +128,13 @@ export const SwapExecutionModal: React.FC<SwapExecutionModalProps> = ({
               <div className="font-bold text-gray-900 dark:text-white font-mono">
                 {quote.fromAmount} {quote.fromToken.symbol}
               </div>
+
+        <div className="flex items-center justify-between text-xs font-mono text-gray-500 dark:text-white/60">
+              <span>Minimum received ({quote.slippageTolerancePercent}% slippage)</span>
+              <span className="font-semibold text-gray-900 dark:text-white">
+                {quote.minimumReceivedAmount.toFixed(4)} {quote.toToken.symbol}
+              </span>
+        </div>
               <div className="text-[10px] text-gray-400">Chain {quote.fromToken.chainId}</div>
             </div>
           </div>
@@ -156,7 +163,7 @@ export const SwapExecutionModal: React.FC<SwapExecutionModalProps> = ({
             )}
             <div className="flex-1">
               <div className="font-medium text-gray-900 dark:text-white">1. Verify RPC Quoting & Calldata</div>
-              <div className="text-[10px] text-gray-400">Pre-flight checks simulated successfully</div>
+              <div className="text-[10px] text-gray-400">Demo pre-flight checks; no RPC request is sent</div>
             </div>
           </div>
 
@@ -171,7 +178,7 @@ export const SwapExecutionModal: React.FC<SwapExecutionModalProps> = ({
             )}
             <div className="flex-1">
               <div className="font-medium text-gray-900 dark:text-white">2. Token Spend Allowance (ERC20.approve)</div>
-              <div className="text-[10px] text-gray-400">Permit2 / Infinite token authorization verified</div>
+              <div className="text-[10px] text-gray-400">Approval step is simulated; no wallet is connected</div>
             </div>
           </div>
 
@@ -223,7 +230,7 @@ export const SwapExecutionModal: React.FC<SwapExecutionModalProps> = ({
         {step === "completed" && (
           <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 space-y-3">
             <div className="flex items-center justify-between text-xs font-mono">
-              <span className="text-gray-600 dark:text-white/60">Transaction Hash</span>
+              <span className="text-gray-600 dark:text-white/60">Demo transaction ID (not on-chain)</span>
               <div className="flex items-center gap-1">
                 <span className="font-bold text-gray-900 dark:text-white">
                   {txHash.slice(0, 8)}...{txHash.slice(-6)}
@@ -278,7 +285,7 @@ export const SwapExecutionModal: React.FC<SwapExecutionModalProps> = ({
           ) : (
             <div className="w-full py-3 rounded-xl bg-gray-100 dark:bg-[#202020] text-gray-500 dark:text-white/40 text-center font-mono text-xs flex items-center justify-center gap-2">
               <Loader2 className="w-3.5 h-3.5 animate-spin text-blue-500" />
-              Broadcasting to EVM Mempool...
+              Simulating route; no transaction will be broadcast...
             </div>
           )}
         </div>

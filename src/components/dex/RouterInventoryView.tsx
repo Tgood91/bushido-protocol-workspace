@@ -29,8 +29,8 @@ export const RouterInventoryView: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [copiedAddress, setCopiedAddress] = useState<string | null>(null);
-  const [isSimulatingEthCall, setIsSimulatingEthCall] = useState(false);
-  const [simulatedCalldataResult, setSimulatedCalldataResult] = useState<string | null>(null);
+  const [isLoadingRouterPreview, setIsLoadingRouterPreview] = useState(false);
+  const [routerMetadataPreview, setRouterMetadataPreview] = useState<string | null>(null);
 
   const handleCopy = (address: string) => {
     navigator.clipboard.writeText(address);
@@ -38,39 +38,18 @@ export const RouterInventoryView: React.FC = () => {
     setTimeout(() => setCopiedAddress(null), 2000);
   };
 
-  const handleTestEthCall = (protocol: RouterProtocolInventory) => {
-    setIsSimulatingEthCall(true);
-    setSimulatedCalldataResult(null);
+  const handlePreviewRouterData = (protocol: RouterProtocolInventory) => {
+    setIsLoadingRouterPreview(true);
+    setRouterMetadataPreview(null);
 
     setTimeout(() => {
-      setIsSimulatingEthCall(false);
-      if (protocol.id === "1inch_v5") {
-        setSimulatedCalldataResult(`eth_call successful:
-gas_estimate: 148,290
-pathfinder_hops: 3 (Uniswap v3 50%, Curve 30%, Balancer 20%)
-return_bytes: 0x00000000000000000000000000000000000000000000000000000000d6037a34
-min_return: 3591.29 USDC`);
-      } else if (protocol.id === "relay") {
-        setSimulatedCalldataResult(`Relay Solver Quote Received:
-solver_id: 0x92f...solver_relay_01
-fulfillment_latency: 8.4s
-cross_chain_quote_id: rel_88491294819
-deposit_address: 0x0000000000000000000000000000000000000000 (Relay Relayer EOA)
-status: Solver liquidity confirmed on destination chain`);
-      } else if (protocol.id === "splits_0x") {
-        setSimulatedCalldataResult(`0xSplits SplitMain.distributeERC20:
-split_contract: 0x2ed6c4fe5350ec2bc4f23b9149b52c00329094ee
-recipients_count: 4
-distributor_fee_bps: 0 (0%)
-merkle_root_verified: true
-payout_status: Atomic execution ready`);
-      } else {
-        setSimulatedCalldataResult(`Simulation Output for ${protocol.protocolName}:
-contract: ${protocol.contractAddress || "EVM Direct Router"}
-latency_ping: ${protocol.latencyMs}ms
-reliability_score: ${protocol.reliabilityScore}%
-status: Ready for routing aggregation`);
-      }
+      setIsLoadingRouterPreview(false);
+      setRouterMetadataPreview(`Metadata preview only — no RPC call or transaction is made.
+Router: ${protocol.protocolName}
+Role: ${protocol.routingRole}
+Supported chains: ${protocol.chains.join(", ")}
+Contract: ${protocol.contractAddress}
+Execution method: ${protocol.primaryExecutionMethod}`);
     }, 700);
   };
 
@@ -78,7 +57,11 @@ status: Ready for routing aggregation`);
     const matchesSearch = 
       item.protocolName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.techStack.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.routingRole.toLowerCase().includes(searchQuery.toLowerCase());
+      item.routingRole.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.chains.some((chain) => String(chain).includes(searchQuery.trim())) ||
+      item.offChainComponents.some((component) => component.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      item.keyFeatures.some((feature) => feature.toLowerCase().includes(searchQuery.toLowerCase()));
     
     if (categoryFilter === "all") return matchesSearch;
     if (categoryFilter === "evm") return matchesSearch && item.id.includes("1inch");
@@ -267,12 +250,12 @@ status: Ready for routing aggregation`);
 
             <div className="flex items-center gap-2">
               <button
-                onClick={() => handleTestEthCall(selectedProtocol)}
-                disabled={isSimulatingEthCall}
+                onClick={() => handlePreviewRouterData(selectedProtocol)}
+                disabled={isLoadingRouterPreview}
                 className="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold font-mono shadow-sm flex items-center gap-1.5 transition-colors disabled:opacity-50"
               >
                 <Terminal className="w-3.5 h-3.5" />
-                <span>{isSimulatingEthCall ? "Simulating..." : "Test eth_call / Calldata"}</span>
+                <span>{isLoadingRouterPreview ? "Loading..." : "Preview Router Data"}</span>
               </button>
 
               <a
@@ -319,6 +302,29 @@ status: Ready for routing aggregation`);
 
               <div>
                 <h4 className="text-xs font-mono uppercase font-bold text-gray-400 tracking-wider mb-1.5">
+                  Off-chain Components
+                </h4>
+                <ul className="space-y-1 text-xs text-gray-700 dark:text-white/80">
+                  {selectedProtocol.offChainComponents.map((component) => (
+                    <li key={component} className="flex items-center gap-2">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-blue-500 shrink-0" />
+                      <span>{component}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <a
+                href={selectedProtocol.explorerUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-mono text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center gap-1"
+              >
+                View contract on explorer <ExternalLink className="w-3 h-3" />
+              </a>
+
+              <div>
+                <h4 className="text-xs font-mono uppercase font-bold text-gray-400 tracking-wider mb-1.5">
                   Core Architectural Capabilities
                 </h4>
                 <ul className="space-y-1 text-xs text-gray-700 dark:text-white/80">
@@ -330,6 +336,15 @@ status: Ready for routing aggregation`);
                   ))}
                 </ul>
               </div>
+
+              <div>
+                <h4 className="text-xs font-mono uppercase font-bold text-gray-400 tracking-wider mb-1.5">
+                  Example Interface
+                </h4>
+                <pre className="whitespace-pre-wrap rounded-lg bg-gray-900 p-3 text-[10px] leading-relaxed text-emerald-300">
+                  {selectedProtocol.calldataSnippet}
+                </pre>
+              </div>
             </div>
 
             {/* Right: Interactive Terminal / Calldata Output */}
@@ -338,18 +353,18 @@ status: Ready for routing aggregation`);
                 <div className="flex items-center justify-between pb-2 border-b border-white/10 text-gray-400 text-[11px]">
                   <span className="flex items-center gap-1.5">
                     <Code className="w-3.5 h-3.5 text-blue-400" />
-                    Simulated RPC & Contract Calldata
+                    Router Metadata Preview (No Live RPC)
                   </span>
                   <span>Node: EVM Mainnet</span>
                 </div>
 
-                {simulatedCalldataResult ? (
+                {routerMetadataPreview ? (
                   <pre className="whitespace-pre-wrap leading-relaxed text-[11px] text-emerald-300">
-                    {simulatedCalldataResult}
+                    {routerMetadataPreview}
                   </pre>
                 ) : (
                   <div className="text-gray-500 py-6 text-center text-[11px] leading-relaxed">
-                    Click "Test eth_call / Calldata" above to simulate an RPC dispatch to {selectedProtocol.protocolName}'s verified contracts.
+                    Click "Preview Router Data" to inspect {selectedProtocol.protocolName}. No RPC request or transaction is sent.
                   </div>
                 )}
               </div>

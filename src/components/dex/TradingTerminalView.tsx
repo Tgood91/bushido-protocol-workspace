@@ -99,7 +99,7 @@ export const TradingTerminalView: React.FC<TradingTerminalViewProps> = ({
           <TradingChart baseToken={fromToken} quoteToken={toToken} />
 
           {/* Execution Route Visualizer */}
-          <RoutePathVisualizer quote={quote} />
+          <RoutePathVisualizer quote={quote} onSelectRouter={onSelectPreferredRouter} />
 
           {/* Market Depth & Live Aggregated Swaps */}
           <OrderbookDepth baseToken={fromToken} quoteToken={toToken} />
@@ -131,8 +131,9 @@ export const TradingTerminalView: React.FC<TradingTerminalViewProps> = ({
             <div className="flex items-center justify-between pb-2 border-b border-gray-100 dark:border-white/5">
               <div className="flex items-center gap-1.5">
                 <Activity className="w-3.5 h-3.5 text-blue-500" />
-                <h4 className="font-bold text-xs text-gray-900 dark:text-white">Active Router Health</h4>
+                <h4 className="font-bold text-xs text-gray-900 dark:text-white">Router Inventory Summary</h4>
               </div>
+              <span className="text-[9px] font-mono text-gray-400">Static reference data</span>
               <button
                 onClick={onOpenRouterInventory}
                 className="text-[10px] font-mono text-blue-600 dark:text-blue-400 hover:underline"
@@ -142,37 +143,18 @@ export const TradingTerminalView: React.FC<TradingTerminalViewProps> = ({
             </div>
 
             <div className="space-y-2 text-xs font-mono">
-              <div className="flex items-center justify-between text-gray-700 dark:text-white/80">
-                <span className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                  1inch v5 (Pathfinder)
-                </span>
-                <span className="text-gray-400">185ms | Local EVM Multi-Hop</span>
-              </div>
-
-              <div className="flex items-center justify-between text-gray-700 dark:text-white/80">
-                <span className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                  Relay Intent Solvers
-                </span>
-                <span className="text-gray-400">32ms | Sub-10s Bridge</span>
-              </div>
-
-              <div className="flex items-center justify-between text-gray-700 dark:text-white/80">
-                <span className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                  Aerodrome ve(3,3) Hub
-                </span>
-                <span className="text-gray-400">95ms | Base Native LP</span>
-              </div>
-
-              <div className="flex items-center justify-between text-gray-700 dark:text-white/80">
-                <span className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-amber-500" />
-                  0xSplits Invariant Node
-                </span>
-                <span className="text-gray-400">45ms | Atomic Multi-Payout</span>
-              </div>
+              {ROUTER_INVENTORY.map((router) => (
+                <div key={router.id} className="flex items-center justify-between gap-3 text-gray-700 dark:text-white/80">
+                  <span className="min-w-0">
+                    <span className="block truncate font-semibold">{router.shortName}</span>
+                    <span className="block truncate text-[10px] text-gray-400">{router.category}</span>
+                  </span>
+                  <span className="shrink-0 text-right text-gray-400">
+                    {router.latencyMs}ms | {router.reliabilityScore}%
+                    <span className="block text-[10px]">Chains: {router.chains.join(", ")}</span>
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
