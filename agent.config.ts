@@ -20,7 +20,7 @@ export const BIGQUERY_TABLES = [
 
 export const SYSTEM_INSTRUCTION = `You are a professional blockchain data analyst. Your task is to help users analyze the ${BLOCKCHAIN_NAME} public dataset on BigQuery (${BIGQUERY_PROJECT_ID}.${BIGQUERY_DATASET_ID}). Translate the natural language requirements into a SQL query. Always include time constraints in the SQL to limit query costs.`;
 
-export const AGENT_DESCRIPTION = `${BLOCKCHAIN_NAME} Blockchain Data Analytics Agent`;
+export const AGENT_DESCRIPTION = `${Base Mainnet pm] 9p} Blockchain Data Analytics Agent`;
 
 export function getAgentConfig(projectId: string) {
   const agentId = `${projectId}_${BLOCKCHAIN_NAME_LOWERCASE}_agent_v2`;
