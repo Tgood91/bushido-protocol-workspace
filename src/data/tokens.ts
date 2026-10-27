@@ -212,6 +212,42 @@ export const TOKEN_LIST: Token[] = [
     volume24hUsd: 1100000000,
     balance: 9500.00,
   }
+{
+    address: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+    symbol: "BNB",
+    name: "BNB",
+    decimals: 18,
+    chainId: 56,
+    logoURI: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/smartchain/assets/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c/logo.png",
+    priceUsd: 749.22,
+    change24h: 0.76,
+    volume24hUsd: 2247706.68,
+    balance: 0.000515,
+},
+{
+    address: "0x55d398326f99059fF775485246999027B3197955",
+    symbol: "USDT",
+    name: "Tether USD",
+    decimals: 18,
+    chainId: 56,
+    logoURI: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/smartchain/assets/0x55d398326f99059fF775485246999027B3197955/logo.png",
+    priceUsd: 0.9986,
+    change24h: 0.01,
+    volume24hUsd: 889312.39,
+    balance: 0,
+},
+{
+    address: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d",
+    symbol: "USDC",
+    name: "USD Coin",
+    decimals: 18,
+    chainId: 56,
+    logoURI: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/smartchain/assets/0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d/logo.png",
+    priceUsd: 1.0011,
+    change24h: -0.03,
+    volume24hUsd: 19879498.46,
+    balance: 0,
+},
 ];
 
 export const DEFAULT_FROM_TOKEN = TOKEN_LIST[0]; // ETH (Mainnet)
