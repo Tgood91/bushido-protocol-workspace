@@ -1,4 +1,4 @@
-export type ChainId = 1 | 8453 | 10 | 42161 | 137;
+export type ChainId = 1 | 8453 | 10 | 42161 | 137 | 56;
 
 export interface ChainConfig {
   id: ChainId;

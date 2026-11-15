@@ -136,7 +136,6 @@ export const TOKEN_LIST: Token[] = [
     volume24hUsd: 247.12,
     balance: 1.026710,
 },
-  },
 
   // Optimism Mainnet (ChainId 10)
   {

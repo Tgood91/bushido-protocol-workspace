@@ -4,8 +4,8 @@ One place for the Bushido protocol: a trading-terminal app with an AI analytics 
 public Bushido repository linked in under [`repos/`](repos).
 
 > **Status.** This README was written from the repository's own files (`metadata.json`, `package.json`,
-> `agent.config.ts`) on 2026-11-15. The app was **not built or run** while writing it, and one file has a syntax
-> error (see [Known problems](#known-problems)).
+> `agent.config.ts`) on 2026-11-15. The type check and the build pass (checked in CI); the app has
+> **not been run** against Google Cloud, so the analytics agent is untested.
 
 ## What the app is
 
@@ -76,8 +76,6 @@ Repositories without "Bushido" in the name (for example the BTG DAO ones) are al
 
 ## Known problems
 
-- `agent.config.ts` does not parse: `AGENT_DESCRIPTION` contains `${Base Mainnet pm] 9p}`, which is not valid
-  code. It is left as found.
 - `package.json` still carries the template name `react-example`, and the GitHub description reads "TW1.01".
 - Several linked repositories overlap (`bushido-virtuals` and `bushido-virtuals0`; three dApp front ends). They are
   linked, not merged: nobody has decided which copy of each is the one to keep.
