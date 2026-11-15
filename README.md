@@ -16,7 +16,7 @@ From `metadata.json`:
   Aerodrome and Velodrome routing, with integrated Ethereum AI analytics.
 - **Capability:** server-side Gemini API.
 
-In practice that is two parts:
+In practice that is three parts:
 
 | Part | Where | What it does |
 |---|---|---|
