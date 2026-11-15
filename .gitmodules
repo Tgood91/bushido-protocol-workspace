@@ -1,0 +1,33 @@
+[submodule "repos/Monad-OPSTACK-DEX"]
+	path = repos/Monad-OPSTACK-DEX
+	url = https://github.com/Tgood91/Monad-OPSTACK-DEX.git
+[submodule "repos/bushido-virtuals"]
+	path = repos/bushido-virtuals
+	url = https://github.com/Tgood91/bushido-virtuals.git
+[submodule "repos/Bushido-future"]
+	path = repos/Bushido-future
+	url = https://github.com/Tgood91/Bushido-future.git
+[submodule "repos/bushido-labs"]
+	path = repos/bushido-labs
+	url = https://github.com/Tgood91/bushido-labs.git
+[submodule "repos/bushido-dex"]
+	path = repos/bushido-dex
+	url = https://github.com/Tgood91/bushido-dex.git
+[submodule "repos/bushido-virtuals0"]
+	path = repos/bushido-virtuals0
+	url = https://github.com/Tgood91/bushido-virtuals0.git
+[submodule "repos/bushido-trades1"]
+	path = repos/bushido-trades1
+	url = https://github.com/Tgood91/bushido-trades1.git
+[submodule "repos/bushido-twpot-1Drip"]
+	path = repos/bushido-twpot-1Drip
+	url = https://github.com/Tgood91/bushido-twpot-1Drip.git
+[submodule "repos/just-some-bushido-.sol"]
+	path = repos/just-some-bushido-.sol
+	url = https://github.com/Tgood91/just-some-bushido-.sol.git
+[submodule "repos/bushidodapp"]
+	path = repos/bushidodapp
+	url = https://github.com/Tgood91/bushidodapp.git
+[submodule "repos/adk-samples-bushido-0.1"]
+	path = repos/adk-samples-bushido-0.1
+	url = https://github.com/Tgood91/adk-samples-bushido-0.1.git
