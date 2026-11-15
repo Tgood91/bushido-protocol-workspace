@@ -99,6 +99,7 @@ export const TOKEN_LIST: Token[] = [
     change24h: 8.74,
     volume24hUsd: 84500000,
     balance: 5200.00,
+  },
 {
     address: "0xb8d98a102b0079b69ffbc760c8d857a31653e56e",
     symbol: "TOBY",
@@ -135,7 +136,6 @@ export const TOKEN_LIST: Token[] = [
     volume24hUsd: 247.12,
     balance: 1.026710,
 },
-  },
 
   // Optimism Mainnet (ChainId 10)
   {
@@ -211,7 +211,7 @@ export const TOKEN_LIST: Token[] = [
     change24h: 0.01,
     volume24hUsd: 1100000000,
     balance: 9500.00,
-  }
+  },
 {
     address: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
     symbol: "BNB",
